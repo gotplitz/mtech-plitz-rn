@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { ThemeProvider } from 'styled-components/native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+// Screens
+import MainPage from '@screens/MainPage';
+
+// TS
+interface ThemeProps {
+	whiteBg: string;
+	primaryColor: string;
+	accentColor: string;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App = () => {
+	const theme: ThemeProps = {
+		whiteBg: '#f0f3f5',
+		primaryColor: '#3c4560',
+		accentColor: '#b8bece',
+	};
+
+	return (
+		<ThemeProvider theme={theme}>
+			<MainPage />
+		</ThemeProvider>
+	);
+};
+
+export default App;
