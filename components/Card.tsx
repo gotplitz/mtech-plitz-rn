@@ -1,36 +1,43 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 // Sytles
 import {
-	Caption,
-	CardContainer,
-	CardSubtitle,
-	Content,
-	Cover,
-	Image,
-	Logo,
-	TitleCard,
-	Wrapper,
-} from '@styles/MainPageStyles';
+  Caption,
+  CardContainer,
+  CardSubtitle,
+  Content,
+  Cover,
+  Image,
+  Logo,
+  TitleCard,
+  Wrapper,
+} from "@styles/MainPageStyles";
+import { ImageSourcePropType } from "react-native/types";
 
-interface CardsProps {}
+interface CardsProps {
+  image: ImageSourcePropType;
+  title: string;
+  logo: ImageSourcePropType;
+  caption: string;
+  subtitle: string;
+}
 
 const Card = (props: CardsProps) => {
-	return (
-		<CardContainer>
-			<Cover>
-				<Image source={require('../assets/background2.jpg')} />
-				<TitleCard>Styled Components</TitleCard>
-			</Cover>
-			<Content>
-				<Logo source={require('../assets/logo-react.png')} />
-				<Wrapper>
-					<Caption>React Native</Caption>
-					<CardSubtitle>5 of 12 sections</CardSubtitle>
-				</Wrapper>
-			</Content>
-		</CardContainer>
-	);
+  return (
+    <CardContainer>
+      <Cover>
+        <Image source={props.image} />
+        <TitleCard>{props.title}</TitleCard>
+      </Cover>
+      <Content>
+        <Logo source={props.logo} />
+        <Wrapper>
+          <Caption>{props.caption}</Caption>
+          <CardSubtitle>{props.subtitle}</CardSubtitle>
+        </Wrapper>
+      </Content>
+    </CardContainer>
+  );
 };
 
 export default Card;
