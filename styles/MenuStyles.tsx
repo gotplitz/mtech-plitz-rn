@@ -15,6 +15,8 @@ export const Container = styled.View`
 	width: 100%;
 	height: 100%;
 	z-index: 100;
+	border-radius: 25px;
+	overflow: hidden;
 `;
 
 export const AnimatedContainer = Animated.createAnimatedComponent(Container);

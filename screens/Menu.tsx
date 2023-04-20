@@ -40,7 +40,7 @@ const Menu = () => {
 	const toggleMenu = () => {
 		if (action === 'openMenu') {
 			Animated.spring(containerTop, {
-				toValue: 0,
+				toValue: 57,
 				useNativeDriver: false,
 			}).start();
 		}

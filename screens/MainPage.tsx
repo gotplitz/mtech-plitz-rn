@@ -5,6 +5,8 @@ import {
 	SafeAreaView,
 	TouchableOpacity,
 	Animated,
+	Easing,
+	StatusBar,
 } from 'react-native';
 
 // Redux stuf
@@ -14,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	AnimatedContainer,
 	Avatar,
+	RootView,
 	ScrHorSpacer,
 	Subtitle,
 	Title,
@@ -35,6 +38,7 @@ interface ThemesTypes extends DefaultTheme {
 
 const MainPage = () => {
 	const [scale] = useState(new Animated.Value(1));
+	const [opacity] = useState(new Animated.Value(1));
 
 	// Sytling connector
 	const theme: ThemesTypes = useTheme();
@@ -45,95 +49,115 @@ const MainPage = () => {
 
 	const toggleMenu = () => {
 		if (action === 'openMenu') {
-			Animated.spring(scale, {
+			Animated.timing(scale, {
 				toValue: 0.9,
+				duration: 300,
+				easing: Easing.ease,
 				useNativeDriver: false,
 			}).start();
+			Animated.spring(opacity, {
+				toValue: 0.5,
+				useNativeDriver: false,
+			}).start();
+
+			StatusBar.setBarStyle('light-content', true);
 		}
 
 		if (action === 'closeMenu') {
-			Animated.spring(scale, {
+			Animated.timing(scale, {
+				toValue: 1,
+				duration: 300,
+				easing: Easing.ease,
+				useNativeDriver: false,
+			}).start();
+			Animated.spring(opacity, {
 				toValue: 1,
 				useNativeDriver: false,
 			}).start();
+
+			StatusBar.setBarStyle('dark-content', true);
 		}
 	};
 
 	useEffect(() => {
+		StatusBar.setBarStyle('dark-content', true);
 		toggleMenu();
 	}, [dispatch, action]);
 
 	return (
-		<AnimatedContainer
-			style={{ transform: [{ scale }] }}
-			theme={theme}
-		>
-			<SafeAreaView>
-				<ScrollView>
-					<TitleBar>
-						<TouchableOpacity
-							onPress={() => {
-								dispatch({ type: 'OPEN_MENU' });
-							}}
+		<RootView>
+			<AnimatedContainer
+				style={{ transform: [{ scale }], opacity: opacity }}
+				theme={theme}
+			>
+				<SafeAreaView>
+					<ScrollView>
+						<TitleBar>
+							<TouchableOpacity
+								onPress={() => {
+									dispatch({ type: 'OPEN_MENU' });
+								}}
+								style={{ position: 'absolute', top: 0, left: 0 }}
+							>
+								<Avatar source={require('@assets/Avatar.jpg')} />
+							</TouchableOpacity>
+							<Title>Welcome back,</Title>
+							<WelcomeName>Norman</WelcomeName>
+							<NotificationsIcon
+								color={theme.secondaryColor}
+								style={{ position: 'absolute', right: 20, top: 5 }}
+							></NotificationsIcon>
+						</TitleBar>
+						<ScrollView
+							horizontal={true}
+							showsHorizontalScrollIndicator={false}
+							style={{ padding: 20, paddingLeft: 12, paddingTop: 30 }}
 						>
-							<Avatar source={require('@assets/Avatar.jpg')} />
-						</TouchableOpacity>
-						<Title>Welcome back,</Title>
-						<WelcomeName>Norman</WelcomeName>
-						<NotificationsIcon
-							color={theme.secondaryColor}
-							style={{ position: 'absolute', right: 20, top: 5 }}
-						></NotificationsIcon>
-					</TitleBar>
-					<ScrollView
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						style={{ padding: 20, paddingLeft: 12, paddingTop: 30 }}
-					>
-						{logos.map((logo, index) => (
-							<Logo
-								key={index}
-								image={logo.image}
-								text={logo.text}
-							/>
-						))}
-						<ScrHorSpacer />
-					</ScrollView>
-					<Subtitle>Continue Learning</Subtitle>
-					<ScrollView
-						horizontal={true}
-						showsHorizontalScrollIndicator={false}
-						style={{ paddingBottom: 30 }}
-					>
-						{cards.map((card, index) => (
-							<Card
-								key={index}
-								title={card.title}
-								image={card.image}
-								logo={card.logo}
-								caption={card.caption}
-								subtitle={card.subtitle}
-							/>
-						))}
+							{logos.map((logo, index) => (
+								<Logo
+									key={index}
+									image={logo.image}
+									text={logo.text}
+								/>
+							))}
+							<ScrHorSpacer />
+						</ScrollView>
+						<Subtitle>Continue Learning</Subtitle>
+						<ScrollView
+							horizontal={true}
+							showsHorizontalScrollIndicator={false}
+							style={{ paddingBottom: 30 }}
+						>
+							{cards.map((card, index) => (
+								<Card
+									key={index}
+									title={card.title}
+									image={card.image}
+									logo={card.logo}
+									caption={card.caption}
+									subtitle={card.subtitle}
+								/>
+							))}
 
-						<ScrHorSpacer />
+							<ScrHorSpacer />
+						</ScrollView>
+						<Subtitle>Popular Courses</Subtitle>
+						{courses.map((course, index) => (
+							<Course
+								key={index}
+								title={course.title}
+								subtitle={course.subtitle}
+								caption={course.caption}
+								image={course.image}
+								logo={course.logo}
+								author={course.author}
+								avatar={course.avatar}
+							/>
+						))}
 					</ScrollView>
-					<Subtitle>Popular Courses</Subtitle>
-					{courses.map((course, index) => (
-						<Course
-							key={index}
-							title={course.title}
-							subtitle={course.subtitle}
-							caption={course.caption}
-							image={course.image}
-							logo={course.logo}
-							author={course.author}
-							avatar={course.avatar}
-						/>
-					))}
-				</ScrollView>
-			</SafeAreaView>
-		</AnimatedContainer>
+				</SafeAreaView>
+			</AnimatedContainer>
+		</RootView>
 	);
 };
 

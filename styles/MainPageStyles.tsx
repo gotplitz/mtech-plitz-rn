@@ -15,9 +15,15 @@ export const ScrHorSpacer = styled.View`
 `;
 
 // Main Page
+export const RootView = styled.View`
+	background: black;
+	flex: 1;
+`;
+
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${(props: ThemeProps) => props.theme.whiteBg};
+	border-radius: 20px;
 `;
 
 export const AnimatedContainer = Animated.createAnimatedComponent(Container);
