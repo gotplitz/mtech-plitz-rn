@@ -3,7 +3,6 @@ import { ImageSourcePropType, View } from 'react-native';
 
 // Styles
 import {
-	Avatar,
 	CourseAuthor,
 	CourseCaption,
 	CourseContainer,
@@ -14,6 +13,7 @@ import {
 	CourseSubtitle,
 	CourseTitle,
 } from '@styles/MainPageStyles';
+import Avatar from './MainLayout/Avatar';
 
 // TS
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
 	logo: ImageSourcePropType;
 	title: string;
 	subtitle: string;
-	avatar: ImageSourcePropType;
+	avatar: string;
 	caption: string;
 	author: string;
 };

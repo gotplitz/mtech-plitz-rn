@@ -14,6 +14,16 @@ export const ScrHorSpacer = styled.View`
 	background: transparent;
 `;
 
+export const SectionContainer = styled.View`
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+`;
+
+export const SectionText = styled.Text`
+	width: auto;
+`;
+
 // Main Page
 export const RootView = styled.View`
 	background: black;
@@ -23,7 +33,8 @@ export const RootView = styled.View`
 export const Container = styled.View`
 	flex: 1;
 	background-color: ${(props: ThemeProps) => props.theme.whiteBg};
-	border-radius: 20px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
 `;
 
 export const AnimatedContainer = Animated.createAnimatedComponent(Container);
@@ -34,10 +45,9 @@ export const TitleBar = styled.View`
 	padding-left: 80px;
 `;
 
-export const Avatar = styled.Image`
+export const AvatarImage = styled.Image`
 	width: 44px;
 	height: 44px;
-	background: #000000;
 	border-radius: 22px;
 	margin-left: 20px;
 `;

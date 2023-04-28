@@ -8,6 +8,7 @@ import {
 	Easing,
 	StatusBar,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Redux stuf
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 // Styles
 import {
 	AnimatedContainer,
-	Avatar,
 	RootView,
 	ScrHorSpacer,
 	Subtitle,
@@ -30,6 +30,7 @@ import { NotificationsIcon } from '@components/MainLayout/Icons';
 import Logo from '@components/MainLayout/Logo';
 import Course from '@components/Course';
 import { InitialStateTypes } from 'App';
+import Avatar from '@components/MainLayout/Avatar';
 
 // TS
 interface ThemesTypes extends DefaultTheme {
@@ -44,7 +45,11 @@ const MainPage = () => {
 	const theme: ThemesTypes = useTheme();
 
 	// Redux dispatcher to open the menu
-	const action = useSelector<InitialStateTypes>((state) => state.action);
+	const { action, userName } = useSelector((state: InitialStateTypes) => ({
+		action: state.action,
+		userName: state.userName,
+	}));
+
 	const dispatch = useDispatch();
 
 	const toggleMenu = () => {
@@ -84,6 +89,8 @@ const MainPage = () => {
 		toggleMenu();
 	}, [dispatch, action]);
 
+	const navigation: any = useNavigation();
+
 	return (
 		<RootView>
 			<AnimatedContainer
@@ -99,10 +106,10 @@ const MainPage = () => {
 								}}
 								style={{ position: 'absolute', top: 0, left: 0 }}
 							>
-								<Avatar source={require('@assets/Avatar.jpg')} />
+								<Avatar />
 							</TouchableOpacity>
 							<Title>Welcome back,</Title>
-							<WelcomeName>Norman</WelcomeName>
+							<WelcomeName>{userName}</WelcomeName>
 							<NotificationsIcon
 								color={theme.secondaryColor}
 								style={{ position: 'absolute', right: 20, top: 5 }}
@@ -129,14 +136,22 @@ const MainPage = () => {
 							style={{ paddingBottom: 30 }}
 						>
 							{cards.map((card, index) => (
-								<Card
+								<TouchableOpacity
 									key={index}
-									title={card.title}
-									image={card.image}
-									logo={card.logo}
-									caption={card.caption}
-									subtitle={card.subtitle}
-								/>
+									onPress={() => {
+										navigation.navigate('Section Screen', {
+											name: card.title,
+										});
+									}}
+								>
+									<Card
+										title={card.title}
+										image={card.image}
+										logo={card.logo}
+										caption={card.caption}
+										subtitle={card.subtitle}
+									/>
+								</TouchableOpacity>
 							))}
 
 							<ScrHorSpacer />

@@ -1,11 +1,12 @@
-import React from 'react';
+import 'react-native-gesture-handler';
 import { ThemeProvider } from 'styled-components/native';
-
-// Screens
-import MainPage from '@screens/MainPage';
-import Menu from '@screens/Menu';
+import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+
+// Screens
+import Menu from '@screens/Menu';
+import AppNavigator from '@navigator/AppNavigator';
 
 // TS
 export interface ThemeProps {
@@ -17,6 +18,12 @@ export interface ThemeProps {
 
 export interface InitialStateTypes {
 	action: string;
+	userName: string;
+}
+
+interface ActionTypes {
+	type: string;
+	userName?: any;
 }
 
 const App = () => {
@@ -29,14 +36,17 @@ const App = () => {
 
 	const initialState: InitialStateTypes = {
 		action: '',
+		userName: '',
 	};
 
-	const reducer = (state = initialState, action: { type: any }) => {
+	const reducer = (state = initialState, action: ActionTypes) => {
 		switch (action.type) {
 			case 'CLOSE_MENU':
 				return { action: 'closeMenu' };
 			case 'OPEN_MENU':
 				return { action: 'openMenu' };
+			case 'UPDATE_NAME':
+				return { userName: action.userName };
 			default:
 				return state;
 		}
@@ -48,7 +58,9 @@ const App = () => {
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
 				<Menu />
-				<MainPage />
+				<NavigationContainer>
+					<AppNavigator />
+				</NavigationContainer>
 			</ThemeProvider>
 		</Provider>
 	);
