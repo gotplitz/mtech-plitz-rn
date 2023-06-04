@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, TouchableOpacity, Dimensions } from 'react-native';
+
+// Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
+import { closeMenu } from '@myReduxConfiguration/actions/globalActions';
 
 // Styles
 import {
@@ -18,7 +21,7 @@ import { CloseIcon } from '@components/MainLayout/Icons';
 import MenuItem from '@components/MenuParts/MenuItem';
 
 // TS
-import { InitialStateTypes } from 'App';
+import { AppDispatch, RootState } from '@myReduxConfiguration/store';
 
 // Helper to get screensizes, in this case only height
 const screenHeight = Dimensions.get('window').height;
@@ -26,26 +29,28 @@ const screenHeight = Dimensions.get('window').height;
 const Menu = () => {
 	const [containerTop] = useState(new Animated.Value(screenHeight));
 
-	const action = useSelector<InitialStateTypes>((state) => state.action);
-	const dispatch = useDispatch();
+	const { menuToggler, userInfo } = useSelector(
+		(state: RootState) => state.globalReducer
+	);
+	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
 		toggleMenu();
-	}, [dispatch, action]);
+	}, [dispatch, menuToggler]);
 
 	const onPress = () => {
-		dispatch({ type: 'CLOSE_MENU' });
+		dispatch(closeMenu());
 	};
 
 	const toggleMenu = () => {
-		if (action === 'openMenu') {
+		if (menuToggler === 'openMenu') {
 			Animated.spring(containerTop, {
 				toValue: 57,
 				useNativeDriver: false,
 			}).start();
 		}
 
-		if (action === 'closeMenu') {
+		if (menuToggler === 'closeMenu') {
 			Animated.spring(containerTop, {
 				toValue: screenHeight,
 				useNativeDriver: false,
@@ -57,7 +62,7 @@ const Menu = () => {
 		<AnimatedContainer style={{ top: containerTop }}>
 			<Cover>
 				<Image source={require('@assets/background2.jpg')} />
-				<Title>Norman Pleitez</Title>
+				<Title>{userInfo.fullname}</Title>
 				<Subtitle>Senior Front End Developer</Subtitle>
 			</Cover>
 			<TouchableOpacity

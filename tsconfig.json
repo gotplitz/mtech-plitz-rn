@@ -13,7 +13,8 @@
 			"@screens/*": ["screens/*"],
 			"@styles/*": ["styles/*"],
 			"@assets/*": ["assets/*"],
-			"@navigator/*": ["navigator/*"]
+			"@navigator/*": ["navigator/*"],
+			"@myReduxConfiguration/*": ["myReduxConfiguration/*"]
 		}
 	},
 	"extends": "expo/tsconfig.base"

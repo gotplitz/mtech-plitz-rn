@@ -1,44 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+
+// Redux Stuff
+import { useSelector } from 'react-redux';
+import { RootState } from '@myReduxConfiguration/store';
 
 // Styling
-import { AvatarImage } from "@styles/MainPageStyles";
-
-// Redux
-import { useDispatch } from "react-redux";
+import { AvatarImage } from '@styles/MainPageStyles';
 
 type Props = {
-  source?: string;
-  style?: object;
+	source?: string;
+	style?: object;
 };
 
 const Avatar = (props: Props) => {
-  const [photo, setPhoto] = useState(
-    "https://thedavid.plitz7.com/uploads/plitz-sq-logo-rounded.jpg"
-  );
+	const [photo, setPhoto] = useState(
+		'https://thedavid.plitz7.com/uploads/plitz-sq-logo-rounded.jpg'
+	);
 
-  const dispatch = useDispatch();
+	const { userInfo } = useSelector((state: RootState) => state.globalReducer);
 
-  useEffect(() => {
-    const GetData = async () => {
-      await fetch("https://thedavid.plitz7.com/api/users/")
-        .then((res) => res.json())
-        .then((data) => {
-          setPhoto(`https://thedavid.plitz7.com/${data[0].photo}`);
-          dispatch({ type: "UPDATE_NAME", userName: data[0].fullname });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+	useEffect(() => {
+		if (userInfo.photo !== '') {
+			setPhoto(userInfo.photo);
+		}
+	}, [userInfo]);
 
-    GetData();
-
-    return () => {
-      GetData();
-    };
-  }, []);
-
-  return <AvatarImage source={{ uri: photo }} style={props.style} />;
+	return (
+		<AvatarImage
+			source={{ uri: photo }}
+			style={props.style}
+		/>
+	);
 };
 
 export default Avatar;

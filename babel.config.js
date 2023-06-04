@@ -14,6 +14,7 @@ module.exports = function (api) {
 						'@styles': './styles',
 						'@assets': './assets',
 						'@navigator': './navigator',
+						'@myReduxConfiguration': './myReduxConfiguration',
 					},
 				},
 			],
