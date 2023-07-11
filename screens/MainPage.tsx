@@ -217,7 +217,10 @@ const MainPage = () => {
 										onPress={() => {
 											navigation.navigate('Section Screen', {
 												name: card.title,
-												section: card,
+												section: {
+													...card,
+													logo: 'https://www.americanstandardair.com/favicons/favicon-128x128.ico',
+												},
 											});
 										}}
 									>
