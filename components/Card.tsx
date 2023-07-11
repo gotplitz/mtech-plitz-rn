@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import RenderHTML from 'react-native-render-html';
 
 // Sytles
 import {
@@ -9,6 +10,7 @@ import {
 	Cover,
 	Image,
 	Logo,
+	Overlay,
 	TitleCard,
 	Wrapper,
 } from '@styles/MainPageStyles';
@@ -20,21 +22,36 @@ interface CardsProps {
 	title: string;
 	logo: ImageSourcePropType;
 	caption: string;
-	subtitle: string;
+	subtitle: {
+		name: string;
+		uri: string;
+	}[];
 }
 
 const Card = (props: CardsProps) => {
+	const tagsStyles = {
+		p: {
+			fontSize: 10,
+			maxWidth: `90%`,
+		},
+	};
+
 	return (
 		<CardContainer>
 			<Cover>
 				<Image source={props.image} />
 				<TitleCard>{props.title}</TitleCard>
+				<Overlay />
 			</Cover>
 			<Content>
 				<Logo source={props.logo} />
 				<Wrapper>
-					<Caption>{props.caption}</Caption>
-					<CardSubtitle>{props.subtitle}</CardSubtitle>
+					<RenderHTML
+						contentWidth={150}
+						source={{ html: props.caption }}
+						tagsStyles={tagsStyles}
+					/>
+					<CardSubtitle>{props.subtitle[0].name}</CardSubtitle>
 				</Wrapper>
 			</Content>
 		</CardContainer>

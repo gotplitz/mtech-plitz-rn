@@ -14,7 +14,8 @@
 			"@styles/*": ["styles/*"],
 			"@assets/*": ["assets/*"],
 			"@navigator/*": ["navigator/*"],
-			"@myReduxConfiguration/*": ["myReduxConfiguration/*"]
+			"@myReduxConf/*": ["myReduxConf/*"],
+			"@libs/*": ["libs/*"]
 		}
 	},
 	"extends": "expo/tsconfig.base"

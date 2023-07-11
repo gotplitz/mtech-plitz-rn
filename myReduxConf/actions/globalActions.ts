@@ -1,12 +1,8 @@
 // Redux Types
-import {
-	CLOSE_MENU,
-	OPEN_MENU,
-	UPDATE_NAME,
-} from '@myReduxConfiguration/types';
+import { CLOSE_MENU, OPEN_MENU, UPDATE_NAME } from '@myReduxConf/types';
 
 // TS
-import { AppDispatch } from '@myReduxConfiguration/store';
+import { AppDispatch } from '@myReduxConf/store';
 
 export const getUserInfo = () => async (dispatch: AppDispatch) => {
 	try {

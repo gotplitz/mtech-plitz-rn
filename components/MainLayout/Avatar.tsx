@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Redux Stuff
 import { useSelector } from 'react-redux';
-import { RootState } from '@myReduxConfiguration/store';
+import { RootState } from '@myReduxConf/store';
 
 // Styling
 import { AvatarImage } from '@styles/MainPageStyles';

@@ -3,7 +3,7 @@ import { Animated, TouchableOpacity, Dimensions } from 'react-native';
 
 // Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
-import { closeMenu } from '@myReduxConfiguration/actions/globalActions';
+import { closeMenu } from '@myReduxConf/actions/globalActions';
 
 // Styles
 import {
@@ -21,7 +21,7 @@ import { CloseIcon } from '@components/MainLayout/Icons';
 import MenuItem from '@components/MenuParts/MenuItem';
 
 // TS
-import { AppDispatch, RootState } from '@myReduxConfiguration/store';
+import { AppDispatch, RootState } from '@myReduxConf/store';
 
 // Helper to get screensizes, in this case only height
 const screenHeight = Dimensions.get('window').height;

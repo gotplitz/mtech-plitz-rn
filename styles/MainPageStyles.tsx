@@ -9,6 +9,28 @@ interface ThemeProps {
 	};
 }
 
+export const LoaderContainer = styled.View`
+	color: ${(props: ThemeProps) => props.theme.primaryColor};
+	background: white;
+	width: 315px;
+	height: 280px;
+	border-radius: 14px;
+	margin-left: 20px;
+	margin-top: 20px;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+export const LoaderText = styled.Text`
+	color: #3c4560;
+	font-size: 16px;
+	font-weight: 600;
+	text-transform: uppercase;
+`;
+
 export const ScrHorSpacer = styled.View`
 	width: 30px;
 	background: transparent;
@@ -91,7 +113,7 @@ export const LogoName = styled.Text`
 export const CardContainer = styled.View`
 	background: white;
 	width: 315px;
-	height: 280px;
+	height: 300px;
 	border-radius: 14px;
 	margin-left: 20px;
 	margin-top: 20px;
@@ -102,6 +124,18 @@ export const CardContainer = styled.View`
 export const Cover = styled.View`
 	width: 100%;
 	height: 200px;
+	position: relative;
+`;
+
+export const Overlay = styled.View`
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 200px;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	position: relative;
+	z-index: 5;
 `;
 
 export const Image = styled.Image`
@@ -110,14 +144,17 @@ export const Image = styled.Image`
 	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 0;
 `;
 
 export const TitleCard = styled.Text`
+	position: absolute;
 	color: white;
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: bold;
 	margin: 20px 0 0 20px;
 	width: 170px;
+	z-index: 10;
 `;
 
 export const Content = styled.View`
@@ -138,7 +175,7 @@ export const Wrapper = styled.View`
 
 export const Caption = styled.Text`
 	color: #3c4560;
-	font-size: 16px;
+	font-size: 10px;
 	font-weight: 600;
 `;
 

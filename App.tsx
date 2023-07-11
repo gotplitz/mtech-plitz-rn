@@ -3,10 +3,14 @@ import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 
+// GraphQL Connection
+import { client } from '@libs/GraphClient';
+import { ApolloProvider } from '@apollo/client';
+
 // Screens
 import Menu from '@screens/Menu';
 import AppNavigator from '@navigator/AppNavigator';
-import store from '@myReduxConfiguration/store';
+import store from '@myReduxConf/store';
 
 // TS
 export interface ThemeProps {
@@ -25,14 +29,16 @@ const App = () => {
 	};
 
 	return (
-		<Provider store={store}>
-			<ThemeProvider theme={theme}>
-				<Menu />
-				<NavigationContainer>
-					<AppNavigator />
-				</NavigationContainer>
-			</ThemeProvider>
-		</Provider>
+		<ApolloProvider client={client}>
+			<Provider store={store}>
+				<ThemeProvider theme={theme}>
+					<Menu />
+					<NavigationContainer>
+						<AppNavigator />
+					</NavigationContainer>
+				</ThemeProvider>
+			</Provider>
+		</ApolloProvider>
 	);
 };
 

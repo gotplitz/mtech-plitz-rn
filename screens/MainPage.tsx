@@ -7,19 +7,23 @@ import {
 	Animated,
 	Easing,
 	StatusBar,
+	ImageSourcePropType,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Redux stuf
+// GraphQL Stuff
+import { useQuery } from '@apollo/client';
+import { getBlogHub } from '@libs/graphQL/getBlogHub';
+
+// Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	getUserInfo,
-	openMenu,
-} from '@myReduxConfiguration/actions/globalActions';
+import { getUserInfo, openMenu } from '@myReduxConf/actions/globalActions';
 
 // Styles
 import {
 	AnimatedContainer,
+	LoaderContainer,
+	LoaderText,
 	RootView,
 	ScrHorSpacer,
 	Subtitle,
@@ -36,11 +40,33 @@ import Course from '@components/Course';
 import Avatar from '@components/MainLayout/Avatar';
 
 // TS
-import { InitialStateTypes } from '@myReduxConfiguration/reducers/globalReducer';
-import { AppDispatch, RootState } from '@myReduxConfiguration/store';
+import { AppDispatch, RootState } from '@myReduxConf/store';
 
 interface ThemesTypes extends DefaultTheme {
 	secondaryColor?: string;
+}
+
+export interface CardTypes {
+	title: string;
+	excerpt: string;
+	featuredImage: {
+		node: {
+			altText: string;
+			mediaDetails: {
+				width: number;
+				height: number;
+			};
+			mediaItemUrl: ImageSourcePropType;
+		};
+	};
+	uri: string;
+	date: string;
+	categories: {
+		nodes: {
+			name: string;
+			uri: string;
+		}[];
+	};
 }
 
 const MainPage = () => {
@@ -48,6 +74,9 @@ const MainPage = () => {
 	const [opacity] = useState(new Animated.Value(1));
 	const [borderTopLeft] = useState(new Animated.Value(0));
 	const [borderTopRight] = useState(new Animated.Value(0));
+
+	// Queries - GraphQL
+	const { loading, data } = useQuery(getBlogHub);
 
 	// Sytling connector
 	const theme: ThemesTypes = useTheme();
@@ -177,25 +206,33 @@ const MainPage = () => {
 							showsHorizontalScrollIndicator={false}
 							style={{ paddingBottom: 30 }}
 						>
-							{cards.map((card, index) => (
-								<TouchableOpacity
-									key={index}
-									onPress={() => {
-										navigation.navigate('Section Screen', {
-											name: card.title,
-											section: card,
-										});
-									}}
-								>
-									<Card
-										title={card.title}
-										image={card.image}
-										logo={card.logo}
-										caption={card.caption}
-										subtitle={card.subtitle}
-									/>
-								</TouchableOpacity>
-							))}
+							{loading ? (
+								<LoaderContainer>
+									<LoaderText>Loading...</LoaderText>
+								</LoaderContainer>
+							) : (
+								data?.posts?.nodes?.map((card: CardTypes, index: number) => (
+									<TouchableOpacity
+										key={index}
+										onPress={() => {
+											navigation.navigate('Section Screen', {
+												name: card.title,
+												section: card,
+											});
+										}}
+									>
+										<Card
+											title={card.title}
+											image={{ uri: `${card.featuredImage.node.mediaItemUrl}` }}
+											logo={{
+												uri: 'https://www.americanstandardair.com/favicons/favicon-128x128.ico',
+											}}
+											caption={card.excerpt}
+											subtitle={card.categories.nodes}
+										/>
+									</TouchableOpacity>
+								))
+							)}
 
 							<ScrHorSpacer />
 						</ScrollView>
@@ -246,37 +283,6 @@ const logos = [
 	{
 		image: require('@assets/logo-sketch.png'),
 		text: 'Sketch',
-	},
-];
-
-const cards = [
-	{
-		title: 'React Native for Designers',
-		image: require('@assets/background11.jpg'),
-		subtitle: 'React Native',
-		caption: '1 of 12 sections',
-		logo: require('@assets/logo-react.png'),
-	},
-	{
-		title: 'Styled Components',
-		image: require('@assets/background12.jpg'),
-		subtitle: 'React Native',
-		caption: '2 of 12 sections',
-		logo: require('@assets/logo-react.png'),
-	},
-	{
-		title: 'Props and Icons',
-		image: require('@assets/background13.jpg'),
-		subtitle: 'React Native',
-		caption: '3 of 12 sections',
-		logo: require('@assets/logo-react.png'),
-	},
-	{
-		title: 'Static Data and Loop',
-		image: require('@assets/background14.jpg'),
-		subtitle: 'React Native',
-		caption: '4 of 12 sections',
-		logo: require('@assets/logo-react.png'),
 	},
 ];
 

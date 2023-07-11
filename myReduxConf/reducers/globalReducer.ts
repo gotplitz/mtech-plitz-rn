@@ -1,8 +1,4 @@
-import {
-	CLOSE_MENU,
-	OPEN_MENU,
-	UPDATE_NAME,
-} from '@myReduxConfiguration/types';
+import { CLOSE_MENU, OPEN_MENU, UPDATE_NAME } from '@myReduxConf/types';
 
 export interface ActionTypes {
 	type: string;
