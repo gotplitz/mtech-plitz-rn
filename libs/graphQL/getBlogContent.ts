@@ -33,3 +33,17 @@ export const getBlogHub = gql`
 		}
 	}
 `;
+
+export const getSinglePost = gql`
+	query GetPost($id: ID!) {
+		post(id: $id, idType: URI) {
+			content(format: RENDERED)
+			uri
+			author {
+				node {
+					nickname
+				}
+			}
+		}
+	}
+`;

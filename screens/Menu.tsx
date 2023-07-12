@@ -25,14 +25,23 @@ import { AppDispatch, RootState } from '@myReduxConf/store';
 
 // Helper to get screensizes, in this case only height
 const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 const Menu = () => {
 	const [containerTop] = useState(new Animated.Value(screenHeight));
+
+	const [currentWidth, setCurrentWidth] = useState(screenWidth);
 
 	const { menuToggler, userInfo } = useSelector(
 		(state: RootState) => state.globalReducer
 	);
 	const dispatch: AppDispatch = useDispatch();
+
+	useEffect(() => {
+		if (screenWidth > 500) {
+			setCurrentWidth(500);
+		}
+	}, []);
 
 	useEffect(() => {
 		toggleMenu();
@@ -43,9 +52,16 @@ const Menu = () => {
 	};
 
 	const toggleMenu = () => {
-		if (menuToggler === 'openMenu') {
+		if (menuToggler === 'openMenu' && screenWidth < 500) {
 			Animated.spring(containerTop, {
 				toValue: 57,
+				useNativeDriver: false,
+			}).start();
+		}
+
+		if (menuToggler === 'openMenu' && screenWidth > 500) {
+			Animated.spring(containerTop, {
+				toValue: 100,
 				useNativeDriver: false,
 			}).start();
 		}
@@ -59,7 +75,9 @@ const Menu = () => {
 	};
 
 	return (
-		<AnimatedContainer style={{ top: containerTop }}>
+		<AnimatedContainer
+			style={{ top: containerTop, width: currentWidth, alignSelf: 'center' }}
+		>
 			<Cover>
 				<Image source={require('@assets/background2.jpg')} />
 				<Title>{userInfo.fullname}</Title>

@@ -8,12 +8,13 @@ import {
 	Easing,
 	StatusBar,
 	ImageSourcePropType,
+	Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // GraphQL Stuff
 import { useQuery } from '@apollo/client';
-import { getBlogHub } from '@libs/graphQL/getBlogHub';
+import { getBlogHub } from '@libs/graphQL/getBlogContent';
 
 // Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +23,7 @@ import { getUserInfo, openMenu } from '@myReduxConf/actions/globalActions';
 // Styles
 import {
 	AnimatedContainer,
+	CoursesContainer,
 	LoaderContainer,
 	LoaderText,
 	RootView,
@@ -119,6 +121,10 @@ const MainPage = () => {
 			}).start();
 
 			StatusBar.setBarStyle('light-content', true);
+
+			if (Platform.OS === 'android') {
+				StatusBar.setBarStyle('dark-content', true);
+			}
 		}
 
 		if (menuToggler === 'closeMenu') {
@@ -147,11 +153,18 @@ const MainPage = () => {
 			}).start();
 
 			StatusBar.setBarStyle('dark-content', true);
+
+			if (Platform.OS === 'android') {
+				StatusBar.setBarStyle('light-content', true);
+			}
 		}
 	};
 
 	useEffect(() => {
 		StatusBar.setBarStyle('dark-content', true);
+		if (Platform.OS === 'android') {
+			StatusBar.setBarStyle('light-content', true);
+		}
 		toggleMenu();
 	}, [dispatch, menuToggler]);
 
@@ -168,6 +181,7 @@ const MainPage = () => {
 				}}
 				theme={theme}
 			>
+				<StatusBar />
 				<SafeAreaView>
 					<ScrollView>
 						<TitleBar>
@@ -240,18 +254,20 @@ const MainPage = () => {
 							<ScrHorSpacer />
 						</ScrollView>
 						<Subtitle>Popular Courses</Subtitle>
-						{courses.map((course, index) => (
-							<Course
-								key={index}
-								title={course.title}
-								subtitle={course.subtitle}
-								caption={course.caption}
-								image={course.image}
-								logo={course.logo}
-								author={course.author}
-								avatar={course.avatar}
-							/>
-						))}
+						<CoursesContainer>
+							{courses.map((course, index) => (
+								<Course
+									key={index}
+									title={course.title}
+									subtitle={course.subtitle}
+									caption={course.caption}
+									image={course.image}
+									logo={course.logo}
+									author={course.author}
+									avatar={course.avatar}
+								/>
+							))}
+						</CoursesContainer>
 					</ScrollView>
 				</SafeAreaView>
 			</AnimatedContainer>

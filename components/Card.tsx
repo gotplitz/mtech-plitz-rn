@@ -1,4 +1,3 @@
-import styled from 'styled-components/native';
 import RenderHTML from 'react-native-render-html';
 
 // Sytles
@@ -37,7 +36,7 @@ const Card = (props: CardsProps) => {
 	};
 
 	return (
-		<CardContainer>
+		<CardContainer style={{ elevation: 10 }}>
 			<Cover>
 				<Image source={props.image} />
 				<TitleCard>{props.title}</TitleCard>
@@ -51,7 +50,7 @@ const Card = (props: CardsProps) => {
 						source={{ html: props.caption }}
 						tagsStyles={tagsStyles}
 					/>
-					<CardSubtitle>{props.subtitle[0].name}</CardSubtitle>
+					<CardSubtitle>{props.subtitle[0].name.toUpperCase()}</CardSubtitle>
 				</Wrapper>
 			</Content>
 		</CardContainer>

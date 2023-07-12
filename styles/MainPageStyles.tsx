@@ -116,7 +116,7 @@ export const CardContainer = styled.View`
 	height: 300px;
 	border-radius: 14px;
 	margin-left: 20px;
-	margin-top: 20px;
+	margin: 20px 10px;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 	overflow: hidden;
 `;
@@ -189,11 +189,18 @@ export const CardSubtitle = styled.Text`
 
 // Main Page
 // > Courses
+export const CoursesContainer = styled.View`
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding-left: 10px;
+`;
+
 export const CourseContainer = styled.View`
-	width: 315px;
+	min-width: 315px;
 	height: 335px;
 	background: white;
-	margin: 10px 20px;
+	margin: 10px;
 	border-radius: 20px;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 	overflow: hidden;

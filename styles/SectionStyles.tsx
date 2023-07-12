@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 interface ThemeProps {
 	theme: {
 		whiteBg: string;
+		primaryColor: string;
 	};
 }
 
@@ -19,7 +20,6 @@ export const Overlay = styled.View`
 	top: 0;
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.7);
-	position: relative;
 	z-index: 5;
 `;
 
@@ -92,4 +92,18 @@ export const Caption = styled.Text`
 
 export const SectionText = styled.Text`
 	font-size: 20px;
+`;
+
+export const Content = styled.View`
+	display: flex;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	background-color: #fff;
+`;
+
+export const LoadingText = styled.Text`
+	margin-top: 30%;
+	text-align: center;
+	color: ${(props: ThemeProps) => props.theme.primaryColor};
 `;

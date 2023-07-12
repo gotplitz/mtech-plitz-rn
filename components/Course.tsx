@@ -1,5 +1,5 @@
-import React from 'react';
-import { ImageSourcePropType, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Dimensions, ImageSourcePropType, View } from 'react-native';
 
 // Styles
 import {
@@ -26,9 +26,52 @@ type Props = {
 	author: string;
 };
 
+interface DimensionsTypes {
+	window: {
+		width: number;
+	};
+}
+
+// Helper to identify current device
+const screenWidth = Dimensions.get('window').width;
+
 const Course = (props: Props) => {
+	const [cardWidth, setCardWidth] = useState<number>(screenWidth - 40);
+
+	useEffect(() => {
+		if (screenWidth >= 768 && screenWidth < 1024) {
+			setCardWidth((screenWidth - 60) / 2);
+		}
+
+		if (screenWidth >= 1024) {
+			setCardWidth((screenWidth - 80) / 3);
+		}
+	}, []);
+
+	useEffect(() => {
+		Dimensions.addEventListener('change', adaptLayout);
+	});
+
+	const adaptLayout = useCallback(
+		(dimensions: DimensionsTypes) => {
+			const currentWidth = dimensions?.window?.width;
+			let finalWidth = 0;
+
+			if (currentWidth >= 768 && currentWidth < 1024) {
+				finalWidth = (currentWidth - 60) / 2;
+			}
+
+			if (currentWidth >= 1024) {
+				finalWidth = (currentWidth - 80) / 3;
+			}
+
+			setCardWidth(finalWidth);
+		},
+		[screenWidth]
+	);
+
 	return (
-		<CourseContainer>
+		<CourseContainer style={{ width: cardWidth }}>
 			<CourseCover>
 				<CourseImage source={props.image} />
 				<CourseLogo
