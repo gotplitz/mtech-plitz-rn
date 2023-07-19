@@ -24,7 +24,28 @@ const TabNavigator = (props: TabNavigatorProps) => {
 	const inactiveColor = theme.accentColor;
 
 	return (
-		<Tabs.Navigator>
+		<Tabs.Navigator
+			screenOptions={{
+				tabBarStyle: { minHeight: 90, paddingTop: 10, paddingBottom: 30 },
+			}}
+		>
+			<Tabs.Screen
+				name='Projects'
+				component={ProjectsScreen}
+				options={{
+					headerShown: false,
+					tabBarLabel: 'Projects',
+					tabBarIcon: ({ focused }) => {
+						return (
+							<Ionicons
+								name='ios-folder'
+								size={26}
+								color={focused ? activeColor : inactiveColor}
+							/>
+						);
+					},
+				}}
+			/>
 			<Tabs.Screen
 				name='MainPage'
 				component={MainPage}
@@ -52,23 +73,6 @@ const TabNavigator = (props: TabNavigatorProps) => {
 						return (
 							<Ionicons
 								name='ios-albums'
-								size={26}
-								color={focused ? activeColor : inactiveColor}
-							/>
-						);
-					},
-				}}
-			/>
-			<Tabs.Screen
-				name='Projects'
-				component={ProjectsScreen}
-				options={{
-					headerShown: false,
-					tabBarLabel: 'Projects',
-					tabBarIcon: ({ focused }) => {
-						return (
-							<Ionicons
-								name='ios-folder'
 								size={26}
 								color={focused ? activeColor : inactiveColor}
 							/>

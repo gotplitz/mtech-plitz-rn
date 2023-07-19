@@ -218,7 +218,7 @@ const MainPage = () => {
 						<ScrollView
 							horizontal={true}
 							showsHorizontalScrollIndicator={false}
-							style={{ paddingBottom: 30 }}
+							style={{ paddingBottom: 30, paddingLeft: 10 }}
 						>
 							{loading ? (
 								<LoaderContainer>

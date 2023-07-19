@@ -93,7 +93,7 @@ const SectionScreen = (props: SectionScreenProps) => {
 	return (
 		<ScrollView>
 			<SectionContainer>
-				<StatusBar hidden />
+				<StatusBar />
 				<Cover>
 					<Image
 						source={{ uri: `${section.featuredImage.node.mediaItemUrl}` }}
@@ -108,7 +108,7 @@ const SectionScreen = (props: SectionScreenProps) => {
 				</Cover>
 				<TouchableOpacity
 					onPress={closeScreen}
-					style={{ position: 'absolute', top: 15, right: 30, zIndex: 20 }}
+					style={{ position: 'absolute', top: 65, right: 30, zIndex: 20 }}
 				>
 					<CloseView>
 						<Ionicons
