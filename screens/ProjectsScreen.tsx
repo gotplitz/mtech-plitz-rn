@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, PanResponder, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 
 // Static Images
 import imagePro01 from '@assets/background5.jpg';
@@ -7,10 +8,11 @@ import imagePro02 from '@assets/background6.jpg';
 import imagePro03 from '@assets/background7.jpg';
 
 // Styling
-import { ProjectsContainer } from '@styles/ProjectsStyles';
+import { AnimatedMask, ProjectsContainer } from '@styles/ProjectsStyles';
 
 // Components
 import Project from '@components/Project';
+import { RootState } from '@myReduxConf/store';
 
 const nextIndex = (myIndex: number) => {
 	const comparison = projects.length - 1;
@@ -31,24 +33,32 @@ const ProjectsScreen = () => {
 	const [translateY2nd] = useState(new Animated.Value(44));
 	const [scale3rd] = useState(new Animated.Value(0.8));
 	const [translateY3rd] = useState(new Animated.Value(-50));
+	const [maskOpacity] = useState(new Animated.Value(0));
 	const [index, setIndex] = useState(0);
 
 	// Declare the state for panResponder, so we can update it when the cards are new
-	const [panResponder, setPanResponder] = useState({
-		onMoveShouldSetPanResponder: () => true,
+	const [panResponder, setPanResponder] = useState(null);
 
-		onPanResponderGrant: () => {},
-
-		onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
-			useNativeDriver: false,
-		}),
-
-		onPanResponderRelease: (e: any, gesture: { dy: number }) => {},
-	});
+	const { toggleCard } = useSelector(
+		(state: RootState) => state.projectsReducer
+	);
 
 	useEffect(() => {
 		setPanResponder({
-			onMoveShouldSetPanResponder: () => true,
+			onMoveShouldSetPanResponder: (
+				e: any,
+				gestureState: { dx: number; dy: number }
+			) => {
+				if (gestureState.dx === 0 && gestureState.dy === 0) {
+					return false;
+				} else {
+					if (toggleCard) {
+						return false;
+					} else {
+						return true;
+					}
+				}
+			},
 
 			onPanResponderGrant: () => {
 				Animated.spring(scale2nd, {
@@ -68,14 +78,24 @@ const ProjectsScreen = () => {
 					toValue: 44,
 					useNativeDriver: false,
 				}).start();
+
+				Animated.timing(maskOpacity, {
+					toValue: 1,
+					useNativeDriver: false,
+				}).start();
 			},
 
 			onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
 				useNativeDriver: false,
 			}),
 
-			onPanResponderRelease: (e, gesture) => {
+			onPanResponderRelease: (e: any, gesture: { dy: number }) => {
 				const currentY = gesture.dy;
+
+				Animated.timing(maskOpacity, {
+					toValue: 0,
+					useNativeDriver: false,
+				}).start();
 
 				if (currentY > 200) {
 					Animated.timing(pan, {
@@ -121,6 +141,7 @@ const ProjectsScreen = () => {
 
 	return (
 		<ProjectsContainer>
+			<AnimatedMask style={{ opacity: maskOpacity }} />
 			<Animated.View
 				style={{
 					transform: [{ translateX: pan.x }, { translateY: pan.y }],
@@ -129,6 +150,7 @@ const ProjectsScreen = () => {
 				{...PanResponder.create(panResponder).panHandlers}
 			>
 				<Project
+					canOpen={true}
 					title={projects[index].title}
 					image={projects[index].image}
 					author={projects[index].author}
@@ -149,6 +171,7 @@ const ProjectsScreen = () => {
 				}}
 			>
 				<Project
+					canOpen={false}
 					title={projects[nextIndex(index)].title}
 					image={projects[nextIndex(index)].image}
 					author={projects[nextIndex(index)].author}
@@ -169,6 +192,7 @@ const ProjectsScreen = () => {
 				}}
 			>
 				<Project
+					canOpen={false}
 					title={projects[nextIndex(index + 1)].title}
 					image={projects[nextIndex(index + 1)].image}
 					author={projects[nextIndex(index + 1)].author}
@@ -187,7 +211,7 @@ const projects = [
 		image: imagePro01,
 		author: 'Norm Plitz',
 		intro:
-			'I have been working on this project to create an app using React Native from a course and trying to use the most current versions for latest practices.',
+			'I have been working on this project to create an app using React Native from a course and trying to use the most current versions for latest practices. I have been working on this project to create an app using React Native from a course and trying to use the most current versions for latest practices.',
 	},
 	{
 		title: 'The DM App - Ananoumous Chat',
