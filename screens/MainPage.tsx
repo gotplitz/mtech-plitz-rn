@@ -43,6 +43,7 @@ import Avatar from '@components/MainLayout/Avatar';
 
 // TS
 import { AppDispatch, RootState } from '@myReduxConf/store';
+import ModalLogin from '@components/ModalLogin';
 
 interface ThemesTypes extends DefaultTheme {
 	secondaryColor?: string;
@@ -271,6 +272,7 @@ const MainPage = () => {
 					</ScrollView>
 				</SafeAreaView>
 			</AnimatedContainer>
+			<ModalLogin />
 		</RootView>
 	);
 };

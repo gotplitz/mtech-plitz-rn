@@ -30,23 +30,6 @@ const TabNavigator = (props: TabNavigatorProps) => {
 			}}
 		>
 			<Tabs.Screen
-				name='Projects'
-				component={ProjectsScreen}
-				options={{
-					headerShown: false,
-					tabBarLabel: 'Projects',
-					tabBarIcon: ({ focused }) => {
-						return (
-							<Ionicons
-								name='ios-folder'
-								size={26}
-								color={focused ? activeColor : inactiveColor}
-							/>
-						);
-					},
-				}}
-			/>
-			<Tabs.Screen
 				name='MainPage'
 				component={MainPage}
 				options={{
@@ -73,6 +56,23 @@ const TabNavigator = (props: TabNavigatorProps) => {
 						return (
 							<Ionicons
 								name='ios-albums'
+								size={26}
+								color={focused ? activeColor : inactiveColor}
+							/>
+						);
+					},
+				}}
+			/>
+			<Tabs.Screen
+				name='Projects'
+				component={ProjectsScreen}
+				options={{
+					headerShown: false,
+					tabBarLabel: 'Projects',
+					tabBarIcon: ({ focused }) => {
+						return (
+							<Ionicons
+								name='ios-folder'
 								size={26}
 								color={focused ? activeColor : inactiveColor}
 							/>
