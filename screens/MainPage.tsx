@@ -18,7 +18,11 @@ import { getBlogHub } from '@libs/graphQL/getBlogContent';
 
 // Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserInfo, openMenu } from '@myReduxConf/actions/globalActions';
+import {
+	getUserInfo,
+	openLogin,
+	openMenu,
+} from '@myReduxConf/actions/globalActions';
 
 // Styles
 import {
@@ -188,7 +192,7 @@ const MainPage = () => {
 						<TitleBar>
 							<TouchableOpacity
 								onPress={() => {
-									dispatch(openMenu());
+									dispatch(openLogin());
 								}}
 								style={{ position: 'absolute', top: 0, left: 0 }}
 							>

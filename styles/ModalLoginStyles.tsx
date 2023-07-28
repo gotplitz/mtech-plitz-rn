@@ -1,3 +1,4 @@
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 interface ThemeProps {
@@ -20,6 +21,9 @@ export const LoginContainer = styled.View`
 	align-items: center;
 `;
 
+export const AnimatedLoginContainer =
+	Animated.createAnimatedComponent(LoginContainer);
+
 export const Modal = styled.View`
 	width: 335px;
 	height: 370px;
@@ -28,6 +32,8 @@ export const Modal = styled.View`
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 	align-items: center;
 `;
+
+export const AnimatedModal = Animated.createAnimatedComponent(Modal);
 
 export const Logo = styled.Image`
 	width: 44px;

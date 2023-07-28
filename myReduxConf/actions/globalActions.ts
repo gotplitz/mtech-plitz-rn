@@ -1,5 +1,11 @@
 // Redux Types
-import { CLOSE_MENU, OPEN_MENU, UPDATE_NAME } from '@myReduxConf/types';
+import {
+	CLOSE_LOGIN,
+	CLOSE_MENU,
+	OPEN_LOGIN,
+	OPEN_MENU,
+	UPDATE_NAME,
+} from '@myReduxConf/types';
 
 // TS
 import { AppDispatch } from '@myReduxConf/store';
@@ -38,6 +44,28 @@ export const closeMenu = () => (dispatch: AppDispatch) => {
 		dispatch({
 			type: CLOSE_MENU,
 			payload: 'closeMenu',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const openLogin = () => (dispatch: AppDispatch) => {
+	try {
+		dispatch({
+			type: OPEN_LOGIN,
+			payload: true,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const closeLogin = () => (dispatch: AppDispatch) => {
+	try {
+		dispatch({
+			type: CLOSE_LOGIN,
+			payload: false,
 		});
 	} catch (error) {
 		console.log(error);
