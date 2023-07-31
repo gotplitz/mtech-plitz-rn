@@ -48,6 +48,7 @@ import Avatar from '@components/MainLayout/Avatar';
 // TS
 import { AppDispatch, RootState } from '@myReduxConf/store';
 import ModalLogin from '@components/ModalLogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ThemesTypes extends DefaultTheme {
 	secondaryColor?: string;
@@ -82,22 +83,28 @@ const MainPage = () => {
 	const [borderTopLeft] = useState(new Animated.Value(0));
 	const [borderTopRight] = useState(new Animated.Value(0));
 
-	// Queries - GraphQL
-	const { loading, data } = useQuery(getBlogHub);
+	const [email, setEmail] = useState('');
 
-	// Sytling connector
-	const theme: ThemesTypes = useTheme();
+	AsyncStorage.getItem('email').then((res) => setEmail(res));
 
 	// Redux dispatcher to open the menu
 	const { menuToggler, userInfo } = useSelector(
 		(state: RootState) => state.globalReducer
 	);
 
+	// Queries - GraphQL
+	const { loading, data } = useQuery(getBlogHub);
+
+	// Sytling connector
+	const theme: ThemesTypes = useTheme();
+
 	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getUserInfo());
-	}, []);
+		if (email !== null && email !== '') {
+			dispatch(getUserInfo());
+		}
+	}, [email]);
 
 	const toggleMenu = () => {
 		if (menuToggler === 'openMenu') {
@@ -175,6 +182,19 @@ const MainPage = () => {
 
 	const navigation: any = useNavigation();
 
+	const handleAvatar = async () => {
+		try {
+			const currentUser = await AsyncStorage.getItem('email');
+			if (currentUser !== null) {
+				dispatch(openMenu());
+			} else {
+				dispatch(openLogin());
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<RootView>
 			<AnimatedContainer
@@ -191,15 +211,13 @@ const MainPage = () => {
 					<ScrollView>
 						<TitleBar>
 							<TouchableOpacity
-								onPress={() => {
-									dispatch(openLogin());
-								}}
+								onPress={handleAvatar}
 								style={{ position: 'absolute', top: 0, left: 0 }}
 							>
-								<Avatar />
+								<Avatar email={email} />
 							</TouchableOpacity>
 							<Title>Welcome back,</Title>
-							<WelcomeName>{userInfo.fullname}</WelcomeName>
+							<WelcomeName>{userInfo.fullname || 'Dear Guest'}</WelcomeName>
 							<NotificationsIcon
 								color={theme.secondaryColor}
 								style={{ position: 'absolute', right: 20, top: 5 }}

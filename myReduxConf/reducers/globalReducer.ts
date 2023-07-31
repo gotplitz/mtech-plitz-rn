@@ -1,4 +1,5 @@
 import {
+	CLEAR_DATA,
 	CLOSE_LOGIN,
 	CLOSE_MENU,
 	OPEN_LOGIN,
@@ -35,6 +36,8 @@ const globalReducer = (state = initialState, action: ActionTypes) => {
 		case OPEN_MENU:
 			return { ...state, menuToggler: payload };
 		case UPDATE_NAME:
+			return { ...state, userInfo: payload };
+		case CLEAR_DATA:
 			return { ...state, userInfo: payload };
 		case OPEN_LOGIN:
 			return { ...state, openLogin: payload };

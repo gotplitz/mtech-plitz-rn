@@ -3,7 +3,7 @@ import { Animated, TouchableOpacity, Dimensions } from 'react-native';
 
 // Redux stuff
 import { useDispatch, useSelector } from 'react-redux';
-import { closeMenu } from '@myReduxConf/actions/globalActions';
+import { closeMenu, logOut } from '@myReduxConf/actions/globalActions';
 
 // Styles
 import {
@@ -22,6 +22,7 @@ import MenuItem from '@components/MenuParts/MenuItem';
 
 // TS
 import { AppDispatch, RootState } from '@myReduxConf/store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Helper to get screensizes, in this case only height
 const screenHeight = Dimensions.get('window').height;
@@ -74,6 +75,18 @@ const Menu = () => {
 		}
 	};
 
+	const handleMenu = (label: string) => {
+		if (label === 'Log out') {
+			try {
+				AsyncStorage.clear();
+				dispatch(logOut());
+				dispatch(closeMenu());
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	};
+
 	return (
 		<AnimatedContainer
 			style={{ top: containerTop, width: currentWidth, alignSelf: 'center' }}
@@ -102,12 +115,16 @@ const Menu = () => {
 			</TouchableOpacity>
 			<Content style={{ height: screenHeight }}>
 				{MenuItems.map((mi, index) => (
-					<MenuItem
+					<TouchableOpacity
 						key={index}
-						icon={mi.icon}
-						title={mi.title}
-						text={mi.text}
-					/>
+						onPress={() => handleMenu(mi.title)}
+					>
+						<MenuItem
+							icon={mi.icon}
+							title={mi.title}
+							text={mi.text}
+						/>
+					</TouchableOpacity>
 				))}
 			</Content>
 		</AnimatedContainer>

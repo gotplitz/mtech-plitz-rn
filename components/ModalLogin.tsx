@@ -8,6 +8,7 @@ import {
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,13 +60,40 @@ const ModalLogin = (props: ModalLoginProps) => {
 	const { openLogin } = useSelector((state: RootState) => state.globalReducer);
 	const dispatch: AppDispatch = useDispatch();
 
+	const storeName = async (email: string) => {
+		try {
+			await AsyncStorage.setItem('email', email);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		const retreiveName = async () => {
+			try {
+				const email = await AsyncStorage.getItem('email');
+				if (email !== null) {
+					console.log(email);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		if (isSuccessful) {
+			retreiveName();
+		}
+	}, [isSuccessful]);
+
 	const handleLogin = () => {
 		setIsLoading(true);
 
 		signInWithEmailAndPassword(firebaseAuth, email, password)
-			.then((response) => {
+			.then((userCredential) => {
 				setIsLoading(false);
-				if (response) {
+				if (userCredential) {
+					// console.log(JSON.stringify(userCredential, null, 2));
+					storeName(userCredential.user.email);
 					setIsSuccessful(true);
 
 					setTimeout(() => {

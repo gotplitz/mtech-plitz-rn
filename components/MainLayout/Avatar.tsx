@@ -10,6 +10,7 @@ import { AvatarImage } from '@styles/MainPageStyles';
 type Props = {
 	source?: string;
 	style?: object;
+	email: string;
 };
 
 const Avatar = (props: Props) => {
@@ -20,10 +21,12 @@ const Avatar = (props: Props) => {
 	const { userInfo } = useSelector((state: RootState) => state.globalReducer);
 
 	useEffect(() => {
-		if (userInfo.photo !== '') {
+		if (userInfo.photo !== '' && props.email !== null) {
 			setPhoto(userInfo.photo);
+		} else {
+			setPhoto('https://thedavid.plitz7.com/uploads/plitz-sq-logo-rounded.jpg');
 		}
-	}, [userInfo]);
+	}, [props.email, userInfo]);
 
 	return (
 		<AvatarImage

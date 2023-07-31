@@ -1,5 +1,6 @@
 // Redux Types
 import {
+	CLEAR_DATA,
 	CLOSE_LOGIN,
 	CLOSE_MENU,
 	OPEN_LOGIN,
@@ -25,6 +26,17 @@ export const getUserInfo = () => async (dispatch: AppDispatch) => {
 		});
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+export const logOut = () => async (dispatch: AppDispatch) => {
+	try {
+		dispatch({
+			type: CLEAR_DATA,
+			payload: { fullname: '', photo: '' },
+		});
+	} catch (error) {
+		console.error('Something went wrong');
 	}
 };
 
