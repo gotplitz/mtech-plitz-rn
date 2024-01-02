@@ -5,13 +5,13 @@ import { getAuth } from "firebase/auth";
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: process.env.FIRE_BASE_KEY,
-  authDomain: process.env.FIRE_BASE_AUTH_DOMAIN,
-  projectId: process.env.FIRE_BASE_PROJECT_ID,
-  storageBucket: process.env.FIRE_BASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIRE_BASE_MESSAGING_SENDER_ID,
-  appId: process.env.FIRE_BASE_APP_ID,
-  measurementId: process.env.FIRE_BASE_MEAS_ID,
+  apiKey: process.env.EXPO_PUBLIC_FB_KEY,
+  authDomain: process.env.EXPO_PUBLIC_FB_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_FB_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_FB_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_FB_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_FB_APP_ID,
+  measurementId: process.env.EXPO_PUBLIC_FB_MEAS_ID,
 };
 
 // Initialize Firebase
